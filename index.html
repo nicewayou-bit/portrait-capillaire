@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="Mon Portrait Capillaire">
+<meta property="og:description" content="Découvre ton portrait capillaire et partage-le avec tes amies.">
+<title>Mon Portrait Capillaire</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #F5EDE0;
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 20px;
+  }
+
+  .label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #7A4F2B;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+
+  .title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: #3C2A1A;
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .vignette-wrap {
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto 32px auto;
+  }
+
+  .vignette-wrap img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 4px;
+  }
+
+  .not-found {
+    width: 100%;
+    max-width: 380px;
+    background: #EDE4D8;
+    border-radius: 4px;
+    padding: 60px 20px;
+    text-align: center;
+    color: #7A4F2B;
+    font-size: 14px;
+    margin-bottom: 32px;
+  }
+
+  .actions {
+    width: 100%;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 15px 20px;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: opacity 0.15s;
+  }
+  .btn:hover { opacity: 0.88; }
+
+  .btn-instagram {
+    background: #3C2A1A;
+    color: #F5EDE0;
+  }
+
+  .btn-download {
+    background: transparent;
+    color: #3C2A1A;
+    border: 1px solid #C8A882;
+  }
+
+  .quiz-link {
+    margin-top: 28px;
+    font-size: 12px;
+    color: #7A4F2B;
+    text-align: center;
+    font-weight: 300;
+  }
+
+  .quiz-link a {
+    color: #3C2A1A;
+    font-weight: 500;
+    text-decoration: underline;
+  }
+
+  .desktop-note {
+    display: none;
+    background: #EDE4D8;
+    border-radius: 4px;
+    padding: 12px 16px;
+    font-size: 12px;
+    color: #7A4F2B;
+    text-align: center;
+    margin-bottom: 12px;
+    line-height: 1.6;
+  }
+
+  @media (min-width: 768px) {
+    .desktop-note { display: block; }
+    .btn-instagram { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<p class="label">Mon Portrait Capillaire</p>
+<h1 class="title" id="profile-name">Chargement...</h1>
+
+<div class="vignette-wrap" id="vignette-container"></div>
+
+<div class="actions">
+  <div class="desktop-note">
+    Le partage en story fonctionne depuis ton téléphone.<br>
+    Télécharge la vignette ci-dessous pour la poster.
+  </div>
+  <a href="#" class="btn btn-instagram" id="btn-instagram">
+    Partager en story Instagram
+  </a>
+  <a href="#" class="btn btn-download" id="btn-download" download>
+    Télécharger ma vignette
+  </a>
+</div>
+
+<p class="quiz-link">
+  Pas encore fait le quiz ?<br>
+  <a href="LIEN_QUIZ_PLACEHOLDER" target="_blank">Découvre ton portrait capillaire →</a>
+</p>
+
+<script>
+const profiles = {
+  'rodee': {
+    name: 'La Rodée',
+    img: 'https://d3k81ch9hvuctc.cloudfront.net/company/SczpWt/images/28a8fa0c-c336-4c8d-afa8-21dd1bb21c0e.png'
+  },
+  'pragmatique': {
+    name: 'La Pragmatique',
+    img: 'https://d3k81ch9hvuctc.cloudfront.net/company/SczpWt/images/7a286cdb-67da-4015-93de-23cb973e1ef7.png'
+  },
+  'mefiante': {
+    name: 'La Méfiante',
+    img: 'https://d3k81ch9hvuctc.cloudfront.net/company/SczpWt/images/c50871e3-cff9-457d-b709-0352ee98a69a.png'
+  },
+  'curieuse': {
+    name: 'La Curieuse Confiante',
+    img: 'https://d3k81ch9hvuctc.cloudfront.net/company/SczpWt/images/2c131416-8e77-4a35-983d-0b8c182f11de.png'
+  },
+  'exploratrice': {
+    name: "L'Exploratrice",
+    img: 'https://d3k81ch9hvuctc.cloudfront.net/company/SczpWt/images/98a8c27b-d842-4b69-ad27-bf40a3dc214f.png'
+  },
+  'saturee': {
+    name: 'La Saturée',
+    img: 'https://d3k81ch9hvuctc.cloudfront.net/company/SczpWt/images/e572cdba-0e41-4476-8004-82559687aaac.png'
+  },
+  'desabusee': {
+    name: 'La Désabusée',
+    img: 'https://d3k81ch9hvuctc.cloudfront.net/company/SczpWt/images/94f26ed0-31ae-467d-bacd-70ee862d07a1.png'
+  }
+};
+
+function getParam(name) {
+  const url = new URLSearchParams(window.location.search);
+  return url.get(name);
+}
+
+function slugify(profil) {
+  const map = {
+    'La Rodée': 'rodee',
+    'La Pragmatique': 'pragmatique',
+    'La Méfiante': 'mefiante',
+    'La Curieuse Confiante': 'curieuse',
+    "L'Exploratrice": 'exploratrice',
+    'La Saturée': 'saturee',
+    'La Désabusée': 'desabusee'
+  };
+  return map[profil] || profil.toLowerCase()
+    .replace(/[éè]/g,'e').replace(/[àâ]/g,'a')
+    .replace(/[^a-z]/g,'');
+}
+
+const raw = getParam('profil') || '';
+const key = slugify(decodeURIComponent(raw)) || raw;
+const profile = profiles[key];
+
+const container = document.getElementById('vignette-container');
+const nameEl = document.getElementById('profile-name');
+const btnIG = document.getElementById('btn-instagram');
+const btnDL = document.getElementById('btn-download');
+
+if (profile) {
+  nameEl.textContent = profile.name;
+
+  const img = document.createElement('img');
+  img.src = profile.img;
+  img.alt = profile.name;
+  container.appendChild(img);
+
+  // Instagram story deep link
+  // Opens Instagram with the image ready to share as a story
+  const igUrl = 'instagram-stories://share?source_application=MeryMoire&backgroundTopColor=%238b3f0b&backgroundBottomColor=%238b3f0b&backgroundImage=' + encodeURIComponent(profile.img);
+  btnIG.href = igUrl;
+  btnIG.addEventListener('click', function(e) {
+    e.preventDefault();
+    window.location.href = igUrl;
+    // Fallback: if Instagram doesn't open, open the image
+    setTimeout(function() {
+      window.open(profile.img, '_blank');
+    }, 1500);
+  });
+
+  btnDL.href = profile.img;
+  btnDL.setAttribute('download', 'mon-portrait-' + key + '.png');
+  btnDL.addEventListener('click', function(e) {
+    e.preventDefault();
+    fetch(profile.img)
+      .then(r => r.blob())
+      .then(blob => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'mon-portrait-' + key + '.png';
+        a.click();
+        URL.revokeObjectURL(url);
+      })
+      .catch(() => window.open(profile.img, '_blank'));
+  });
+
+} else {
+  nameEl.textContent = 'Portrait introuvable';
+  const note = document.createElement('div');
+  note.className = 'not-found';
+  note.textContent = 'Ce lien ne correspond à aucun profil. Fais le quiz pour découvrir le tien !';
+  container.appendChild(note);
+  btnIG.style.display = 'none';
+  btnDL.style.display = 'none';
+}
+</script>
+</body>
+</html>
