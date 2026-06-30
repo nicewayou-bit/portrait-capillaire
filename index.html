@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="Mon Portrait Capillaire">
+<meta property="og:description" content="Découvre ton portrait capillaire et partage-le avec tes amies.">
+<title>Mon Portrait Capillaire</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #FBF6EE;
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 20px;
+  }
+
+  .label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #7A4F2B;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+
+  .title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: #3C2A1A;
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  .vignette-wrap {
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto 28px auto;
+  }
+
+  .vignette-wrap img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 6px;
+  }
+
+  .not-found {
+    width: 100%;
+    max-width: 380px;
+    background: #EDE4D8;
+    border-radius: 6px;
+    padding: 60px 20px;
+    text-align: center;
+    color: #7A4F2B;
+    font-size: 14px;
+    margin-bottom: 28px;
+  }
+
+  .actions {
+    width: 100%;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 16px 20px;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: opacity 0.15s;
+  }
+  .btn:hover { opacity: 0.88; }
+
+  .btn-download {
+    background: #3C2A1A;
+    background-image: linear-gradient(180deg, #3C2A1A 0%, #2E2013 100%);
+    color: #F5EDE0;
+    box-shadow: 0 6px 16px rgba(60,42,26,0.22);
+  }
+
+  .instructions {
+    background: #F1E6D6;
+    border: 1px solid #C8A882;
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-top: 4px;
+  }
+
+  .instructions-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #7A4F2B;
+    margin-bottom: 10px;
+  }
+
+  .instructions ol {
+    margin: 0;
+    padding-left: 18px;
+  }
+
+  .instructions li {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    color: #2A2A2A;
+    line-height: 1.6;
+    margin-bottom: 6px;
+  }
+  .instructions li:last-child { margin-bottom: 0; }
+
+  .btn-instagram-open {
+    display: block;
+    width: 100%;
+    padding: 16px 20px;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: transparent;
+    color: #3C2A1A;
+    border: 1px solid #C8A882;
+    border-radius: 8px;
+  }
+
+  .quiz-link {
+    margin-top: 24px;
+    font-size: 12px;
+    color: #7A4F2B;
+    text-align: center;
+    font-weight: 300;
+  }
+
+  .quiz-link a {
+    color: #3C2A1A;
+    font-weight: 500;
+    text-decoration: underline;
+  }
+
+  .download-feedback {
+    display: none;
+    text-align: center;
+    font-size: 12px;
+    color: #2E6B3E;
+    font-weight: 500;
+    margin-top: -4px;
+  }
+</style>
+</head>
+<body>
+
+<p class="label">Mon Portrait Capillaire</p>
+<h1 class="title" id="profile-name">Chargement...</h1>
+
+<div class="vignette-wrap" id="vignette-container"></div>
+
+<div class="actions">
+  <a href="#" class="btn btn-download" id="btn-download" download>
+    Télécharger ma vignette
+  </a>
+  <p class="download-feedback" id="download-feedback">✓ Vignette téléchargée</p>
+
+  <div class="instructions">
+    <p class="instructions-title">Pour partager en story</p>
+    <ol>
+      <li>Télécharge la vignette ci-dessus</li>
+      <li>Ouvre Instagram et crée une nouvelle story</li>
+      <li>Ajoute la photo depuis ta galerie</li>
+    </ol>
+  </div>
+
+  <a href="instagram://story-camera" class="btn-instagram-open" id="btn-instagram">
+    Ouvrir Instagram
+  </a>
+</div>
+
+<p class="quiz-link">
+  Pas encore fait le quiz ?<br>
+  <a href="LIEN_QUIZ_PLACEHOLDER" target="_blank">Découvre ton portrait capillaire →</a>
+</p>
+
+<script>
+const profiles = {
+  'rodee': {
+    name: 'La Rodée',
+    img: 'https://d3k81ch9hvuctc.cloudfront.net/company/SczpWt/images/3327366f-449a-4268-855d-446cae06c9e9.png'
+  },
+  'pragmatique': {
+    name: 'La Pragmatique',
+    img: 'https://d3k81ch9hvuctc.cloudfront.net/company/SczpWt/images/f3cc7e3f-7993-46fb-bac1-8810fc0bb352.png'
+  },
+  'mefiante': {
+    name: 'La Méfiante',
+    img: 'https://d3k81ch9hvuctc.cloudfront.net/company/SczpWt/images/4f797bee-a263-4eee-a54b-080bf44bdd20.png'
+  },
+  'curieuse': {
+    name: 'La Curieuse Confiante',
+    img: 'https://d3k81ch9hvuctc.cloudfront.net/company/SczpWt/images/dd6cc706-dfb9-4c33-8d9b-e39f45075b64.png'
+  },
+  'exploratrice': {
+    name: "L'Exploratrice",
+    img: 'https://d3k81ch9hvuctc.cloudfront.net/company/SczpWt/images/90df7731-f1cb-493c-8f71-7d562327bfac.png'
+  },
+  'saturee': {
+    name: 'La Saturée',
+    img: 'https://d3k81ch9hvuctc.cloudfront.net/company/SczpWt/images/06467d83-0b2e-49ce-b42d-db7d75df8dfd.png'
+  },
+  'desabusee': {
+    name: 'La Désabusée',
+    img: 'https://d3k81ch9hvuctc.cloudfront.net/company/SczpWt/images/519ff2de-8ab9-4b39-9dea-d87edcb02c34.png'
+  }
+};
+
+function getParam(name) {
+  const url = new URLSearchParams(window.location.search);
+  return url.get(name);
+}
+
+function slugify(profil) {
+  const map = {
+    'La Rodée': 'rodee',
+    'La Pragmatique': 'pragmatique',
+    'La Méfiante': 'mefiante',
+    'La Curieuse Confiante': 'curieuse',
+    "L'Exploratrice": 'exploratrice',
+    'La Saturée': 'saturee',
+    'La Désabusée': 'desabusee'
+  };
+  return map[profil] || profil.toLowerCase()
+    .replace(/[éè]/g,'e').replace(/[àâ]/g,'a')
+    .replace(/[^a-z]/g,'');
+}
+
+const raw = getParam('profil') || '';
+const key = slugify(decodeURIComponent(raw)) || raw;
+const profile = profiles[key];
+
+const container = document.getElementById('vignette-container');
+const nameEl = document.getElementById('profile-name');
+const btnDL = document.getElementById('btn-download');
+const btnIG = document.getElementById('btn-instagram');
+const feedback = document.getElementById('download-feedback');
+
+// Detect mobile
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+if (profile) {
+  nameEl.textContent = profile.name;
+
+  const img = document.createElement('img');
+  img.src = profile.img;
+  img.alt = profile.name;
+  container.appendChild(img);
+
+  // Download — direct link with download attribute, most reliable approach
+  const filename = 'mon-portrait-' + key + '.png';
+  btnDL.href = profile.img;
+  btnDL.setAttribute('download', filename);
+  btnDL.setAttribute('target', '_blank');
+
+  btnDL.addEventListener('click', function() {
+    feedback.style.display = 'block';
+    setTimeout(function() { feedback.style.display = 'none'; }, 3000);
+  });
+
+  // Hide Instagram button on desktop — deep link only works on mobile
+  if (!isMobile) {
+    btnIG.style.display = 'none';
+  }
+
+} else {
+  nameEl.textContent = 'Portrait introuvable';
+  const note = document.createElement('div');
+  note.className = 'not-found';
+  note.textContent = 'Ce lien ne correspond à aucun profil. Fais le quiz pour découvrir le tien !';
+  container.appendChild(note);
+  document.querySelector('.actions').style.display = 'none';
+}
+</script>
+</body>
+</html>
