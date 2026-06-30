@@ -175,8 +175,7 @@
 </head>
 <body>
 
-<p class="label">Mon Portrait Capillaire</p>
-<h1 class="title" id="profile-name">Chargement...</h1>
+
 
 <div class="vignette-wrap" id="vignette-container"></div>
 
@@ -262,7 +261,6 @@ const key = slugify(decodeURIComponent(raw)) || raw;
 const profile = profiles[key];
 
 const container = document.getElementById('vignette-container');
-const nameEl = document.getElementById('profile-name');
 const btnDL = document.getElementById('btn-download');
 const btnIG = document.getElementById('btn-instagram');
 const feedback = document.getElementById('download-feedback');
@@ -271,23 +269,51 @@ const feedback = document.getElementById('download-feedback');
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
 if (profile) {
-  nameEl.textContent = profile.name;
-
   const img = document.createElement('img');
   img.src = profile.img;
   img.alt = profile.name;
   container.appendChild(img);
 
-  // Download — direct link with download attribute, most reliable approach
   const filename = 'mon-portrait-' + key + '.png';
-  btnDL.href = profile.img;
-  btnDL.setAttribute('download', filename);
-  btnDL.setAttribute('target', '_blank');
 
-  btnDL.addEventListener('click', function() {
-    feedback.style.display = 'block';
-    setTimeout(function() { feedback.style.display = 'none'; }, 3000);
-  });
+  // Mobile: use native share sheet (saves to Photos / lets user pick Instagram)
+  // Desktop: fallback to classic download link
+  if (isMobile && navigator.share && navigator.canShare) {
+    btnDL.removeAttribute('download');
+    btnDL.removeAttribute('href');
+    btnDL.addEventListener('click', async function(e) {
+      e.preventDefault();
+      try {
+        const response = await fetch(profile.img);
+        const blob = await response.blob();
+        const file = new File([blob], filename, { type: blob.type || 'image/png' });
+
+        if (navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            files: [file],
+            title: 'Mon Portrait Capillaire'
+          });
+        } else {
+          // Fallback if file sharing not supported
+          window.open(profile.img, '_blank');
+        }
+      } catch (err) {
+        // User cancelled or error — fallback to opening image
+        if (err.name !== 'AbortError') {
+          window.open(profile.img, '_blank');
+        }
+      }
+    });
+  } else {
+    // Desktop fallback — classic download
+    btnDL.href = profile.img;
+    btnDL.setAttribute('download', filename);
+    btnDL.setAttribute('target', '_blank');
+    btnDL.addEventListener('click', function() {
+      feedback.style.display = 'block';
+      setTimeout(function() { feedback.style.display = 'none'; }, 3000);
+    });
+  }
 
   // Hide Instagram button on desktop — deep link only works on mobile
   if (!isMobile) {
@@ -295,7 +321,6 @@ if (profile) {
   }
 
 } else {
-  nameEl.textContent = 'Portrait introuvable';
   const note = document.createElement('div');
   note.className = 'not-found';
   note.textContent = 'Ce lien ne correspond à aucun profil. Fais le quiz pour découvrir le tien !';
