@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8BHHHVFDJD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-8BHHHVFDJD');
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta property="og:title" content="Mon Portrait Capillaire">
@@ -202,7 +210,7 @@
 
 <p class="quiz-link">
   Pas encore fait le quiz ?<br>
-  <a href="https://beautyfusion.typeform.com/mon-portrait" target="_blank">Découvre ton portrait capillaire →</a>
+  <a href="https://beautyfusion.typeform.com/mon-portrait?utm_source=vignette-page" target="_blank" onclick="gtag('event', 'click_quiz_from_vignette', {'profil': key});">Découvre ton portrait capillaire →</a>
 </p>
 
 <script>
@@ -294,6 +302,10 @@ if (profile) {
             files: [file],
             title: 'Mon Portrait Capillaire'
           });
+          gtag('event', 'download_vignette', {
+            'profil': key,
+            'device': 'mobile'
+          });
         } else {
           // Fallback if file sharing not supported
           window.open(profile.img, '_blank');
@@ -313,6 +325,10 @@ if (profile) {
     btnDL.addEventListener('click', function() {
       feedback.style.display = 'block';
       setTimeout(function() { feedback.style.display = 'none'; }, 3000);
+      gtag('event', 'download_vignette', {
+        'profil': key,
+        'device': 'desktop'
+      });
     });
   }
 
